@@ -1,15 +1,35 @@
-import React from "react";
-import data from "../../data";
-import Clients from "../clients/Clients";
-import ProductsList from "./products/ProductsList";
+import React, { Suspense } from "react";
+import { connect } from "react-redux";
+import { Switch } from "react-router-dom";
+import mainRoutes from "../../routes/mainRoutes";
+import PrivateRoute from "../../routes/PrivateRoute";
+import PublicRoute from "../../routes/PublicRoute";
+// import data from "../../data";
+// import Clients from "../clients/Clients";
+// import ProductsList from "./products/ProductsList";
 
-const Main = () => {
+const Main = ({ isAuth }) => {
   return (
-    <main>
-      <ProductsList products={data.products} />
-      <Clients clients={data.clients} />
-    </main>
+    <>
+      <Suspense fallback={<h2>LOADING...</h2>}>
+        <Switch>
+          {mainRoutes.map(item =>
+            item.isPrivate ? (
+              <PrivateRoute {...item} key={item.path} isAuth={isAuth} />
+            ) : (
+              <PublicRoute {...item} key={item.path} isAuth={isAuth} />
+            )
+          )}
+        </Switch>
+      </Suspense>
+    </>
   );
 };
 
-export default Main;
+const mapStateToProps = state => {
+  return {
+    isAuth: state.auth.token?.idToken
+  };
+};
+
+export default connect(mapStateToProps)(Main);
