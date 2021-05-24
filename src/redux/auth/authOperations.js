@@ -11,9 +11,9 @@ export const registerOperation = user => async dispatch => {
       returnSecureToken: true
     });
     dispatch(registerSuccess(data));
-    axios.post(`https://shop-fee62-default-rtdb.firebaseio.com/users/${data.localId}.json`, {
+    axios.post(`https://shop-fee62-default-rtdb.firebaseio.com/users/${data.localId}.json?auth=${data.idToken}`, {
       email: user.email,
-      role: "admin"
+      role: "user"
     }); //We safe the info about a user
   } catch (error) {
     dispatch(registerError(error.response.data.error.message));

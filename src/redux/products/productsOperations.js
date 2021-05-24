@@ -41,11 +41,11 @@ const addProductOperation = car => async (dispatch, getState) => {
   }
 };
 
-const deleteProductOperation = id => async dispatch => {
+const deleteProductOperation = id => async (dispatch, getState) => {
   dispatch(deleteProductRequest());
   try {
     await axios.delete(`
-      https://shop-fee62-default-rtdb.firebaseio.com/cars/${id}.json`);
+      https://shop-fee62-default-rtdb.firebaseio.com/cars/${id}.json?auth=${getState().auth.tokens.idToken}`);
     dispatch(deleteProductSuccess(id));
   } catch (error) {
     dispatch(deleteProductError());
