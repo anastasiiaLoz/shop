@@ -1,5 +1,5 @@
 import { combineReducers, createReducer } from "@reduxjs/toolkit";
-import { addClient, deleteClient, getAllClients, resetError, setClientLoading, setError } from "./clientsActions";
+import { addClient, deleteClient, getAllClients, resetError, setClientLoading, setError, setFilter } from "./clientsActions";
 
 const itemsReducer = createReducer([], {
   [addClient]: (state, { payload }) => [...state, payload],
@@ -16,10 +16,15 @@ const clientErrorReducer = createReducer("", {
   [resetError]: () => ""
 });
 
+const filterReducer = createReducer("", {
+  [setFilter]: (_, { payload }) => payload
+});
+
 const clientsReducer = combineReducers({
   items: itemsReducer,
   isLoading: clientLoaderReducer,
-  error: clientErrorReducer
+  error: clientErrorReducer,
+  filter: filterReducer
 });
 
 // const clientsReducer = (state = [], action) => {

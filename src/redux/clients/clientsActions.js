@@ -12,4 +12,6 @@ const setError = createAction("clients/setError");
 
 const resetError = createAction("clients/resetError");
 
-export { addClient, deleteClient, getAllClients, setClientLoading, setError, resetError };
+const setFilter = createAction("clients/setFilter");
+
+export { addClient, deleteClient, getAllClients, setClientLoading, setError, resetError, setFilter };

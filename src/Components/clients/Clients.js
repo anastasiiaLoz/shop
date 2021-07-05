@@ -16,14 +16,10 @@ class Clients extends Component {
     this.props.getAllClientsOperation();
   }
 
-  addClient = async client => {
-    this.props.addClientOperation(client);
-  };
-
-  deleteClient = async e => {
-    const { id } = e.target;
-    this.props.deleteClientOperation(id);
-  };
+  // deleteClient = async e => {     // Deleted, not used due to using hooks
+  //   const { id } = e.target;
+  //   this.props.deleteClientOperation(id);
+  // };
 
   setFilter = e => {
     const { value } = e.target;
@@ -32,18 +28,14 @@ class Clients extends Component {
     });
   };
 
-  getFilteredClients = () => {
-    return this.props.clients.filter(client => client.clientName.toLowerCase().includes(this.state.filter.toLowerCase()));
-  };
-
   render() {
     return (
       <>
         {this.props.error && <h2>{this.props.error}</h2>}
         {this.props.isLoading && <h2>Loading...</h2>}
-        <ClientsForm addClient={this.addClient} />
+        <ClientsForm />
         <ClientsFilter filter={this.state.filter} setFilter={this.setFilter} />
-        <ClientsList clients={this.getFilteredClients()} deleteClient={this.deleteClient} />
+        <ClientsList />
       </>
     );
   }
@@ -57,7 +49,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getAllClientsOperation,
-  addClientOperation,
   deleteClientOperation
 };
 

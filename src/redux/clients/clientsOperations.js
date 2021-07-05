@@ -10,7 +10,10 @@ const addClientOperation = client => async (dispatch, getState) => {
   }
   dispatch(setClientLoading());
   try {
-    const { data } = await axios.post(`https://shop-fee62-default-rtdb.firebaseio.com/clients.json`, client);
+    const { data } = await axios.post(
+      `https://shop-fee62-default-rtdb.firebaseio.com/clients.json?auth=${getState().auth.tokens.idToken}`,
+      client
+    );
     dispatch(addClient({ ...client, id: data.name }));
   } catch (error) {
     console.dir(error.response.data.error);
@@ -20,10 +23,12 @@ const addClientOperation = client => async (dispatch, getState) => {
   }
 };
 
-const deleteClientOperation = id => async dispatch => {
+const deleteClientOperation = id => async (dispatch, getState) => {
   dispatch(setClientLoading());
   try {
-    await axios.delete(`https://shop-fee62-default-rtdb.firebaseio.com/clients/${id}.json`);
+    await axios.delete(
+      `https://shop-fee62-default-rtdb.firebaseio.com/clients/${id}.json?auth=${getState().auth.tokens.idToken}`
+    );
     dispatch(deleteClient(id));
   } catch (error) {
   } finally {
@@ -31,10 +36,12 @@ const deleteClientOperation = id => async dispatch => {
   }
 };
 
-const getAllClientsOperation = () => async dispatch => {
+const getAllClientsOperation = () => async (dispatch, getState) => {
   dispatch(setClientLoading());
   try {
-    const { data } = await axios.get(`https://shop-fee62-default-rtdb.firebaseio.com/clients.json`);
+    const { data } = await axios.get(
+      `https://shop-fee62-default-rtdb.firebaseio.com/clients.json?auth=${getState().auth.tokens.idToken}`
+    );
     if (data) {
       const clients = Object.keys(data).map(key => ({ id: key, ...data[key] }));
       dispatch(getAllClients(clients));

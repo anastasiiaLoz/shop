@@ -28,7 +28,7 @@ const Main = ({ isAuth }) => {
 
 const mapStateToProps = state => {
   return {
-    isAuth: state.auth.token?.idToken
+    isAuth: state.auth.tokens?.idToken
   };
 };
 
